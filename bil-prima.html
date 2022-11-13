@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bil Prima</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container my-3">
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Bilangan prima terkecil dan terbesar</h4>
+                <hr>
+
+                <div class="mt-3">
+                    <input type="number" name="data" id="data" class="form-control" min="0">
+                    <button class="btn btn-primary mt-2" id="search">Search</button>
+
+                    <div class="mt-3" id="reskecil"></div>
+                    <div class="mt-3" id="resbesar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script>
+        
+        function isPrime(n)
+        {
+            // since 0 and 1 is not prime return false.
+            if(n == 1 || n == 0) return false;
+            // Run a loop from 2 to n-1
+            for(var i = 2; i < n; i++)
+            {
+                // check with modulo.
+                if(n % i == 0) return false;
+            }
+            // otherwise, n is prime number.
+            return true;
+        }
+
+        var btn = document.getElementById('search');
+        var showResK = document.getElementById('reskecil');
+        var showResB = document.getElementById('resbesar');
+        btn.addEventListener('click', function(){
+            var N = document.getElementById('data').value; //input value
+
+            var resKecil = '<p>';
+            var resBesar = '<p>';
+            var valKecil = '';
+            var valBesar = [];
+            var countK = 0;
+
+            for(var i = 1; i <= N; i++)
+            {
+                if(isPrime(i)) {
+                    valKecil += i + ' ';
+                    countK++;
+                }
+            }
+            resKecil += valKecil + '</p> <br> total = ' + countK;
+            showResK.innerHTML = resKecil;
+
+            let split = valKecil.split(' ');
+            valBesar = split.reverse();
+
+            for(let i = 0; i < valBesar.length; i++)
+            {
+                resBesar += valBesar[i] + ' ';
+            }
+            resBesar += '</p> ';
+            showResB.innerHTML = resBesar;
+            
+        })
+    </script>
+</body>
+</html>

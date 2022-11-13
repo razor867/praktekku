@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Praktek</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container my-3">
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Praktek angka ke terbilang</h4>
+                <hr>
+
+                <div class="mt-3">
+                    <input type="number" name="data" id="data" class="form-control" min="0">
+
+                    <div class="mt-3 text-center" id="res"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script>
+        var ones = [
+            "",
+            "satu",
+            "dua",
+            "tiga",
+            "empat",
+            "lima",
+            "enam",
+            "tujuh",
+            "delapan",
+            "sembilan",
+        ];
+        var tens1 = [
+            "",
+            "",
+            "dua puluh",
+            "tiga puluh",
+            "empat puluh",
+            "lima puluh",
+            "enam puluh",
+            "tujuh puluh",
+            "delapan puluh",
+            "sembilan puluh",
+        ];
+        var tens2 = [
+            "sepuluh",
+            "sebelas",
+            "dua belas",
+            "tiga belas",
+            "empat belas",
+            "lima belas",
+            "enam belas",
+            "tujuh belas",
+            "delapan belas",
+            "sembilan belas",
+        ];
+
+        function convert_billions(num) { //miliar
+            if (num >= 1000000000) {
+                return "~";
+            } else {
+                return convert_millions(num);
+            }
+        }
+
+        function convert_millions(num) { //jutaan
+            if (num >= 1000000) {
+                return (
+                convert_millions(Math.floor(num / 1000000)) +
+                " juta " +
+                convert_thousands(num % 1000000)
+                );
+            } else {
+                return convert_thousands(num);
+            }
+        }
+
+        function convert_thousands(num) { //ribuan
+            if (num >= 1000) {
+                return (
+                convert_hundreds(Math.floor(num / 1000)) +
+                " ribu " +
+                convert_hundreds(num % 1000)
+                );
+            } else {
+                return convert_hundreds(num);
+            }
+        }
+
+        function convert_hundreds(num) { //ratusan
+            if (num > 99) {
+                return ones[Math.floor(num / 100)] + " ratus " + convert_tens(num % 100); //Math floor pembulatan ke bawah
+            } else {
+                return convert_tens(num);
+            }
+        }
+
+        function convert_tens(num) { //puluhan dan belasan
+            if (num < 10) return ones[num];
+            else if (num >= 10 && num < 20) return tens2[num - 10];
+            else {
+                return tens1[Math.floor(num / 10)] + " " + ones[num % 10];
+            }
+        }
+
+        function convert(num) {
+            if (num == 0) return "nol";
+            else return convert_billions(num);
+        }
+
+        function replace(txt) {
+            if (txt.includes('satu ratus')) return txt.replace('satu ratus', 'seratus')
+            else if (txt.includes('satu ribu')) return txt.replace('satu ribu', 'seribu')
+            else return txt;
+        }
+
+        function replace2(txt) {
+            if (txt.includes('seribu'))
+            {
+                let a = txt.split(' ');
+                for (let i = 0; i < a.length; i++)
+                {
+                    if (a[i] == 'seribu' && i == 0)
+                    {
+                        return txt;
+                    }
+
+                    if (a[i] == 'seribu' && i != 0)
+                    {
+                        return txt.replace('seribu', 'satu ribu');
+                    }
+                }
+            }
+            return txt;
+        }
+
+        let inputData = document.getElementById('data');
+        let res = '';
+        let show = document.getElementById('res');
+        data.addEventListener('keyup', function(){
+            res = '<h5>' + replace2(replace(convert(data.value))) + ' rupiah</h5>';
+            show.innerHTML = res;
+        })
+
+    </script>
+</body>
+</html>
